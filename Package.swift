@@ -21,7 +21,8 @@ let package = Package(
     targets: [
         .target(
             name: "Redux",
-            dependencies: []),
+            dependencies: [],
+            path: "Sources"),
         .testTarget(
             name: "ReduxTests",
             dependencies: ["Redux"]),
