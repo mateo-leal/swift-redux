@@ -8,19 +8,19 @@
 import Combine
 import Foundation
 
-protocol State {
+public protocol State {
     init()
 }
 
-actor Store<S: State, Action>: ObservableObject {
-    typealias Reducer = (S, Action) -> S
+public actor Store<S: State, Action>: ObservableObject {
+    public typealias Reducer = (S, Action) -> S
 
     @MainActor @Published private(set) var state: S = .init()
 
     private let middleware: AnyMiddleware<Action>
     private let reducer: Reducer
 
-    init<M: Middleware>(
+    public init<M: Middleware>(
         reducer: @escaping Reducer,
         @MiddlewareBuilder<Action> middleware: () -> M
     ) where M.Action == Action {
@@ -28,7 +28,7 @@ actor Store<S: State, Action>: ObservableObject {
         self.middleware = middleware().eraseToAnyMiddleware()
     }
 
-    convenience init(reducer: @escaping Reducer) {
+    public convenience init(reducer: @escaping Reducer) {
         self.init(
             reducer: reducer,
             middleware: {
@@ -37,7 +37,7 @@ actor Store<S: State, Action>: ObservableObject {
         )
     }
 
-    func dispatch(action: Action) async {
+    public func dispatch(action: Action) async {
         guard let newAction = await middleware(action: action) else {
             return
         }

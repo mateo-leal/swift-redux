@@ -5,7 +5,7 @@
 //  Created by Mateo Leal Giraldo on 10/12/22.
 //
 
-protocol Middleware {
+public protocol Middleware {
     associatedtype Action
 
     func callAsFunction(action: Action) async -> Action?
